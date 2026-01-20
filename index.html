@@ -12,10 +12,13 @@
             box-sizing: border-box;
         }
         header {
-            background-color: #58641D;
-            color: white;
+            background-color: rgba(88, 100, 29, 0.7);
+            background-image: url("assets/Joshua Tree Photo 2023.JPG");
+            background-size: cover;
+            background-position: center;
+            color: #231F20;
             padding: 1rem;
-            text-align: left;
+            text-align: center;
         }
         .hero {
             position: relative;
@@ -81,6 +84,24 @@
         <button class="particle-button" id="particle-3">Projects</button>
         <h1 id="hero-title">Hello, I'm Patrick Chou</h1>
         <img src="assets/lineArtPortrait.png" alt="Portrait" style="width: 150px; height: auto; position: relative; z-index: 10; margin-top: 1rem;">
+    <script>
+        function typewriterEffect(element, text, speed) {
+        let i = 0;
+        function type() {
+            if (i < text.length) {
+            element.textContent += text.charAt(i);
+            i++;
+            setTimeout(type, speed);
+            }
+        }
+        type();
+        }
+
+        const heroTitleElement = document.getElementById('hero-title');
+        const heroTitleText = "Hello, I'm Patrick Chou";
+        heroTitleElement.textContent = ""; // Clear initial text
+        typewriterEffect(heroTitleElement, heroTitleText, 150);
+    </script>
     </div>
 
     <script>
