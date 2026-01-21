@@ -60,7 +60,7 @@ header {
     border-radius: 50px;
     cursor: pointer;
     background-color: var(--background-color);
-    color: var(--background-color);
+    color: var(--text-color-black);
     font-weight: bold;
     pointer-events: auto;
     transition: transform 0.1s;
