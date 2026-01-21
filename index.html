@@ -110,7 +110,7 @@
         <button class="particle-button" id="particle-1">Rocketry</button>
         <button class="particle-button" id="particle-2">Robotics</button>
         <button class="particle-button" id="particle-3">Projects</button>
-        <h1 id="hero-title">Hello, I'm Patrick Chou</h1>
+        <h1 id="hero-title"></h1>
         <div class="portrait-container" id="portrait-container">
             <img src="assets/lineArtPortrait.png" alt="Portrait Base" class="portrait-base">
             <div class="portrait-reveal-layer">
@@ -119,10 +119,96 @@
         </div>
     </div>
 
+    <section id="about" style="padding: 4rem 2rem; background-color: white; max-width: 1200px; margin: 0 auto;">
+        <h2 style="font-size: 2.5rem; color: #4F5D2F; margin-bottom: 3rem; text-align: center;">About Me</h2>
+        
+        <div class="card-container">
+            <!-- Card from left -->
+            <div class="info-card slide-left" style="margin-bottom: 3rem;">
+                <div style="flex: 1; min-width: 300px; padding: 2rem;">
+                    <h3 style="color: #4F5D2F; font-size: 1.8rem; margin-bottom: 1rem;">Who I Am</h3>
+                    <p style="font-size: 1.1rem; line-height: 1.8; color: #231F20;">
+                        Hello! I'm Patrick Chou, I am also know as MoodyDonut64 across various online platforms. I love tinkering with hardware and taking photos in my free time!
+                    </p>
+                </div>
+                
+                </div>
+            </div>
+
+            <!-- Card from right -->
+            <div class="info-card slide-right" style="margin-bottom: 3rem;">
+                <div style="flex: 1; min-width: 300px; padding: 2rem;">
+                    <h3 style="color: #4F5D2F; font-size: 1.8rem; margin-bottom: 1rem;">Designing</h3>
+                    <p style="font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif system-ui;font-size: 1.1rem; line-height: 1.8; color: #231F20;">
+                       Starting with lego robotics, I was limited to the parts avaialble and the physical limitations to what lego could do. Turning to the world of 3D modeling and CAD, through various softwares such as Fusion 360 and OnShape, I was able to create designs limited only by my imagination.
+                    </p>
+                    <p style="font-size: 1.1rem; line-height: 1.8; color: #231F20;">
+                       Starting with designing simple things like pencil organizers and phone stands, I have now designed and 3D printed complex parts for rocketry and robotics projects.
+                    </p>
+                    <p style="font-size: 1.1rem; line-height: 1.8; color: #231F20;">
+                        Since then I have expanded out to not only robotics and rocketry, but also photography equipment such as camera mounts and accessories., I have used my knowledge of CADing for biotech research. 
+                    </p>
+                </div>
+            </div>
+
+            <!-- Card from left -->
+            <div class="info-card slide-left">
+                <div style="flex: 1; min-width: 300px; padding: 2rem;">
+                    <h3 style="color: #4F5D2F; font-size: 1.8rem; margin-bottom: 1rem;">Photography</h3>
+                    <p style="font-size: 1.1rem; line-height: 1.8; color: #231F20;">
+                        Ever since getting my first camera in middle school, I have loved capturing moments and scenes through photography. It's hard to describe what I have achieved in theese past years, but it has been more of a personal journey to capture what I see through my eyes. I have learned to capture the stars and nebula that arent visible to the human eyes through long exposure photography. I have also ventured into some videography to capture my projects.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .info-card {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            flex-wrap: wrap;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+            opacity: 0;
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .slide-left {
+            transform: translateX(-100px);
+        }
+
+        .slide-right {
+            transform: translateX(100px);
+        }
+
+        .info-card.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    </style>
+
     <script>
         const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
         const heroTitle = document.getElementById('hero-title');
+        
+        // Typewriter effect
+        const titleText = "Hello, I'm Patrick Chou";
+        let charIndex = 0;
+        
+        function typeWriter() {
+            if (charIndex < titleText.length) {
+                heroTitle.textContent += titleText.charAt(charIndex);
+                charIndex++;
+                setTimeout(typeWriter, 100); // Adjust speed here (milliseconds per character)
+            }
+        }
+        
+        // Start typewriter effect after a short delay
+        setTimeout(typeWriter, 500);
         
         // Portrait reveal setup
         const portraitContainer = document.getElementById('portrait-container');
@@ -134,164 +220,40 @@
         revealImg.src = 'assets/SeniorPortrait.png';
         
         // Set canvas size to match container
-        revealCanvas.width = 150;
-        revealCanvas.height = 150;
+        revealCanvas.width = 240;
+        revealCanvas.height = 240;
         
         // Create an offscreen canvas for the mask
         const maskCanvas = document.createElement('canvas');
-        maskCanvas.width = 150;
-        maskCanvas.height = 150;
+        maskCanvas.width = 240;
+        maskCanvas.height = 240;
         const maskCtx = maskCanvas.getContext('2d');
         
-        let lastX = 0;
-        let lastY = 0;
-        let trail = [];
-        let isOverPortrait = false;
-        let velocity = { x: 0, y: 0 };
-        let lastTime = Date.now();
-        
-        portraitContainer.addEventListener('mouseenter', (e) => {
-            isOverPortrait = true;
-            const rect = portraitContainer.getBoundingClientRect();
-            lastX = e.clientX - rect.left;
-            lastY = e.clientY - rect.top;
-            velocity = { x: 0, y: 0 };
-            lastTime = Date.now();
-        });
-        
         portraitContainer.addEventListener('mousemove', (e) => {
-            if (!isOverPortrait) return;
-            
             const rect = portraitContainer.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
             
-            // Calculate velocity based on mouse movement
-            const currentTime = Date.now();
-            const dt = Math.max(currentTime - lastTime, 1);
-            const dx = x - lastX;
-            const dy = y - lastY;
-            
-            velocity.x = dx / dt * 15;
-            velocity.y = dy / dt * 15;
-            
-            // Add multiple particles for smoother glass effect
-            const speed = Math.sqrt(dx * dx + dy * dy);
-            const numParticles = Math.max(1, Math.floor(speed / 3));
-            
-            for (let i = 0; i < numParticles; i++) {
-                const t = i / numParticles;
-                const px = lastX + dx * t;
-                const py = lastY + dy * t;
-                const angle = Math.atan2(dy, dx) + (Math.random() - 0.5) * 0.3;
-                const spreadSpeed = speed * 0.3;
-                
-                trail.push({ 
-                    x: px + (Math.random() - 0.5) * 5, 
-                    y: py + (Math.random() - 0.5) * 5, 
-                    vx: velocity.x + Math.cos(angle) * spreadSpeed * (Math.random() - 0.5),
-                    vy: velocity.y + Math.sin(angle) * spreadSpeed * (Math.random() - 0.5),
-                    life: 1.0,
-                    size: 20 + Math.random() * 15
-                });
-            }
-            
-            // Limit trail length
-            if (trail.length > 100) {
-                trail.splice(0, trail.length - 100);
-            }
-            
-            lastX = x;
-            lastY = y;
-            lastTime = currentTime;
+            // Draw on the mask
+            maskCtx.globalCompositeOperation = 'source-over';
+            maskCtx.fillStyle = 'white';
+            maskCtx.beginPath();
+            maskCtx.arc(x, y, 20, 0, Math.PI * 2);
+            maskCtx.fill();
         });
-        
-        portraitContainer.addEventListener('mouseleave', () => {
-            isOverPortrait = false;
-        });
-        
-        // Update trail with physics - liquid glass effect
-        function updateTrail() {
-            // Sort by life for proper layering (older particles behind)
-            trail.sort((a, b) => b.life - a.life);
-            
-            trail.forEach((point, index) => {
-                // Apply inertia with smooth deceleration
-                point.x += point.vx;
-                point.y += point.vy;
-                
-                // Glass-like friction - very smooth
-                point.vx *= 0.97;
-                point.vy *= 0.97;
-                
-                // Add slight gravity/drip effect
-                point.vy += 0.05;
-                
-                // Decrease life slower for longer trails
-                point.life -= 0.012;
-                
-                // Draw with glass-like gradients
-                if (point.life > 0) {
-                    maskCtx.globalCompositeOperation = 'source-over';
-                    
-                    const size = point.size * point.life;
-                    const alpha = Math.pow(point.life, 0.7); // Smoother fade
-                    
-                    // Create radial gradient for glass effect
-                    const gradient = maskCtx.createRadialGradient(
-                        point.x, point.y, 0,
-                        point.x, point.y, size
-                    );
-                    
-                    gradient.addColorStop(0, `rgba(255, 255, 255, ${alpha * 0.9})`);
-                    gradient.addColorStop(0.5, `rgba(255, 255, 255, ${alpha * 0.6})`);
-                    gradient.addColorStop(1, `rgba(255, 255, 255, 0)`);
-                    
-                    maskCtx.fillStyle = gradient;
-                    maskCtx.beginPath();
-                    maskCtx.arc(point.x, point.y, size, 0, Math.PI * 2);
-                    maskCtx.fill();
-                    
-                    // Add highlight for glossy effect
-                    if (point.life > 0.7) {
-                        const highlightGradient = maskCtx.createRadialGradient(
-                            point.x - size * 0.3, point.y - size * 0.3, 0,
-                            point.x - size * 0.3, point.y - size * 0.3, size * 0.5
-                        );
-                        highlightGradient.addColorStop(0, `rgba(255, 255, 255, ${alpha * 0.4})`);
-                        highlightGradient.addColorStop(1, `rgba(255, 255, 255, 0)`);
-                        
-                        maskCtx.fillStyle = highlightGradient;
-                        maskCtx.beginPath();
-                        maskCtx.arc(point.x, point.y, size, 0, Math.PI * 2);
-                        maskCtx.fill();
-                    }
-                }
-            });
-            
-            // Remove dead trail points
-            trail = trail.filter(point => point.life > 0 && 
-                                          point.x > -100 && point.x < 250 && 
-                                          point.y > -100 && point.y < 250);
-        }
         
         // Animation loop for portrait reveal
         function animateReveal() {
             // Clear the reveal canvas
-            revealCtx.clearRect(0, 0, 150, 150);
+            revealCtx.clearRect(0, 0, 240, 240);
             
-            // Clear and redraw mask
-            maskCtx.clearRect(0, 0, 150, 150);
-            
-            // Update trail physics
-            updateTrail();
-            
-            // Fade the entire mask slightly over time for a dissolving effect
-            // FADE SPEED: Change this value (0.005) - higher = faster fade, lower = slower fade
-            // Example: 0.02 = fast fade, 0.002 = slow fade
+            // Fade the mask back to 0 (transparent) over time
             maskCtx.globalCompositeOperation = 'destination-out';
-            maskCtx.fillStyle = 'rgba(255, 255, 255, 0.005)';
-            maskCtx.fillRect(0, 0, 150, 150);
+            maskCtx.fillStyle = 'rgba(255, 255, 255, 0.02)';
+            maskCtx.fillRect(0, 0, 240, 240);
+            
+            // Reset composite operation for next frame
+            maskCtx.globalCompositeOperation = 'source-over';
             
             // Draw the reveal image using the mask
             revealCtx.save();
@@ -299,7 +261,7 @@
             // Use the mask as a clipping region
             revealCtx.drawImage(maskCanvas, 0, 0);
             revealCtx.globalCompositeOperation = 'source-in';
-            revealCtx.drawImage(revealImg, 0, 0, 150, 150);
+            revealCtx.drawImage(revealImg, 0, 0, 240, 240);
             
             revealCtx.restore();
             
@@ -563,6 +525,25 @@
         }
 
         animate();
+
+        // Scroll animation for cards
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all info cards
+        document.querySelectorAll('.info-card').forEach(card => {
+            observer.observe(card);
+        });
 
         // Add click handlers
         document.querySelectorAll('.particle-button').forEach((button, index) => {
