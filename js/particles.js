@@ -267,10 +267,4 @@ export function initParticles(canvasId, heroId, heroTitleId, portraitContainerId
 
     animate();
     
-    // Add click handlers
-    document.querySelectorAll('.particle-button').forEach((button, index) => {
-        button.addEventListener('click', () => {
-            alert(`You clicked ${labels[index]}!`);
-        });
-    });
-}
+};
