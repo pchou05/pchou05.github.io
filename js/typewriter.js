@@ -3,7 +3,7 @@
  * Creates a typewriter animation for text
  */
 
-export function initTypewriter(element, text, speed = 100, delay = 500) {
+export function initTypewriter(element, text, speed = 150, delay = 300) {
     let charIndex = 0;
     
     function typeWriter() {
